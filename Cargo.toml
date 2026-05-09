@@ -1,0 +1,49 @@
+[package]
+name = "samba-gui"
+version = "0.1.12"
+edition = "2021"
+
+[features]
+default = []
+gui = ["dep:gtk", "dep:adw", "dep:glib"]
+
+[dependencies]
+gtk = { version = "0.11", package = "gtk4", features = ["v4_14"], optional = true }
+adw = { version = "0.9", package = "libadwaita", features = ["v1_4"], optional = true }
+glib = { version = "0.19", package = "glib", features = ["v2_76"], optional = true }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+quickcheck = "1.0"
+proptest = "1.5"
+chrono = { version = "0.4", features = ["serde"] }
+thiserror = "1.0"
+log = "0.4"
+env_logger = "0.11"
+
+[dev-dependencies]
+tempfile = "3.10"
+
+[package.metadata.deb]
+maintainer = "Your Name <your.email@example.com>"
+copyright = "2024-2026, Your Name"
+license-file = ["LICENSE", "3"]
+extended-description = """\
+A GTK4/libadwaita desktop application for managing SAMBA server \
+and client configurations on Linux. Provides a graphical interface \
+for server/client config, service management, user management, \
+and backup/restore."""
+section = "admin"
+priority = "optional"
+depends = "libgtk-4-1 (>= 4.14), libadwaita-1-0 (>= 1.4), samba, samba-common-bin"
+assets = [
+    ["target/release/samba-gui", "usr/bin/", "755"],
+    ["assets/samba-gui.desktop", "usr/share/applications/", "644"],
+    ["assets/com.example.samba-gui-256.png", "usr/share/icons/hicolor/256x256/apps/com.example.samba-gui.png", "644"],
+    ["assets/com.example.samba-gui-128.png", "usr/share/icons/hicolor/128x128/apps/com.example.samba-gui.png", "644"],
+    ["assets/com.example.samba-gui-64.png", "usr/share/icons/hicolor/64x64/apps/com.example.samba-gui.png", "644"],
+    ["assets/com.example.samba-gui-48.png", "usr/share/icons/hicolor/48x48/apps/com.example.samba-gui.png", "644"],
+    ["templates.json", "usr/share/samba-gui/templates.json", "644"],
+    ["README.md", "usr/share/doc/samba-gui/", "644"],
+]
+default-features = false
+features = ["gui"]

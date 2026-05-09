@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Samba GUI
+Comment=Manage SAMBA server and client configurations
+Exec=samba-gui
+Icon=com.example.samba-gui
+Terminal=false
+Type=Application
+Categories=System;Settings;Network;
+Keywords=samba;smb;cifs;share;network;
+StartupWMClass=com.example.samba-gui
