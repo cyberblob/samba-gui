@@ -1,0 +1,30 @@
+name: Build .deb Package
+
+on:
+  push:
+    tags:
+      - 'v*'  # This triggers when you create a tag like v0.1.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y libgtk-4-dev libadwaita-1-dev
+
+      - name: Install cargo-deb
+        run: cargo install cargo-deb
+
+      - name: Build .deb package
+        run: cargo deb --output target/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: samba-gui
+          path: target/*.deb
