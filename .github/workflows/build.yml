@@ -3,7 +3,7 @@ name: Build .deb Package
 on:
   push:
     tags:
-      - 'v*'  # This triggers when you create a tag like v0.1.0
+      - 'v*'
 
 jobs:
   build:
@@ -11,6 +11,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Update version from tag
+        run: |
+          # Extract tag name and remove the 'v' prefix (e.g., v0.1.12 -> 0.1.12)
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "Syncing version to: $VERSION"
+          
+          # Update the VERSION file
+          echo "$VERSION" > VERSION
+          
+          # Update Cargo.toml to match the tag
+          sed -i "s/^version = .*$/version = \"$VERSION\"/" Cargo.toml
 
       - name: Install dependencies
         run: |
@@ -26,5 +38,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: samba-gui
+          name: samba-gui-${{ github.ref_name }}
           path: target/*.deb
